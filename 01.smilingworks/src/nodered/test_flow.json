@@ -1,0 +1,287 @@
+[
+    {
+        "id": "90fada54.67ccb8",
+        "type": "tab",
+        "label": "Test Flow"
+    },
+    {
+        "id": "bfd3efa7.0247f",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws/detectSmile",
+        "wholemsg": "false"
+    },
+    {
+        "id": "e5adf3ae.91e2e",
+        "type": "websocket in",
+        "z": "90fada54.67ccb8",
+        "name": "",
+        "server": "bfd3efa7.0247f",
+        "client": "",
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "3df42ee.2249ed2"
+            ]
+        ]
+    },
+    {
+        "id": "46c96e97.9e484",
+        "type": "debug",
+        "z": "90fada54.67ccb8",
+        "name": "",
+        "active": false,
+        "console": "true",
+        "complete": "payload",
+        "x": 780,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3df42ee.2249ed2",
+        "type": "function",
+        "z": "90fada54.67ccb8",
+        "name": "parseFloat",
+        "func": "var v = msg.payload;\nv = parseFloat(v);\nif (v<0) v=0;\nmsg.payload = v;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "25809609.dab94a"
+            ]
+        ]
+    },
+    {
+        "id": "25809609.dab94a",
+        "type": "range",
+        "z": "90fada54.67ccb8",
+        "minin": "0",
+        "maxin": "1",
+        "minout": "0",
+        "maxout": "100",
+        "action": "roll",
+        "round": true,
+        "name": "Map to 0..1",
+        "x": 550,
+        "y": 240,
+        "wires": [
+            [
+                "46c96e97.9e484",
+                "8bd7e871.361988"
+            ]
+        ]
+    },
+    {
+        "id": "8bd7e871.361988",
+        "type": "smooth",
+        "z": "90fada54.67ccb8",
+        "name": "",
+        "action": "low",
+        "count": "10",
+        "round": "",
+        "x": 740,
+        "y": 240,
+        "wires": [
+            [
+                "42c169ab.7d0e28",
+                "30f07054.65773"
+            ]
+        ]
+    },
+    {
+        "id": "42c169ab.7d0e28",
+        "type": "debug",
+        "z": "90fada54.67ccb8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 930,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "30f07054.65773",
+        "type": "switch",
+        "z": "90fada54.67ccb8",
+        "name": "Is Smiling?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "35",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 430,
+        "y": 360,
+        "wires": [
+            [
+                "4e1e9733.c7ec08"
+            ],
+            [
+                "d91b9640.df95c8"
+            ]
+        ]
+    },
+    {
+        "id": "4e1e9733.c7ec08",
+        "type": "change",
+        "z": "90fada54.67ccb8",
+        "name": "Yes",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "af660fd.cbe01f"
+            ]
+        ]
+    },
+    {
+        "id": "d91b9640.df95c8",
+        "type": "change",
+        "z": "90fada54.67ccb8",
+        "name": "No",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 400,
+        "wires": [
+            [
+                "af660fd.cbe01f"
+            ]
+        ]
+    },
+    {
+        "id": "55128f67.86dbe",
+        "type": "debug",
+        "z": "90fada54.67ccb8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 1010,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "af660fd.cbe01f",
+        "type": "rbe",
+        "z": "90fada54.67ccb8",
+        "name": "Report changes",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 800,
+        "y": 360,
+        "wires": [
+            [
+                "55128f67.86dbe",
+                "81a7274.32857d8"
+            ]
+        ]
+    },
+    {
+        "id": "71d9fab.f779704",
+        "type": "http request",
+        "z": "90fada54.67ccb8",
+        "name": "POST /relay on ESP8266",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://192.168.4.1/relay",
+        "tls": "",
+        "x": 1070,
+        "y": 520,
+        "wires": [
+            [
+                "df0e62ad.f0d59"
+            ]
+        ]
+    },
+    {
+        "id": "81a7274.32857d8",
+        "type": "change",
+        "z": "90fada54.67ccb8",
+        "name": "",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "true",
+                "fromt": "bool",
+                "to": "{\"Relay\":1}",
+                "tot": "json"
+            },
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "false",
+                "fromt": "bool",
+                "to": "{\"Relay\":0}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 520,
+        "wires": [
+            [
+                "71d9fab.f779704"
+            ]
+        ]
+    },
+    {
+        "id": "df0e62ad.f0d59",
+        "type": "debug",
+        "z": "90fada54.67ccb8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1030,
+        "y": 420,
+        "wires": []
+    }
+]
