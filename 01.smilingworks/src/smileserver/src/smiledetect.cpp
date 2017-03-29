@@ -30,9 +30,10 @@ string nestedCascadeName;
 
 int main( int argc, const char** argv )
 {
-    VideoCapture capture;
-capture.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-capture.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+    VideoCapture capture(-1);
+capture.set(cv::CAP_PROP_FRAME_WIDTH, 320);
+capture.set(cv::CAP_PROP_FRAME_HEIGHT, 240);
+capture.set(cv::CAP_PROP_FPS,5);
     Mat frame, image;
     string inputName;
     bool tryflip;
