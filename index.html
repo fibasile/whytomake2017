@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    
+    <title>
+      Why to make almost anything 2017
+    </title>
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" type="text/css"><!-- CSS Reset -->
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css" type="text/css"><!-- Milligram CSS minified -->
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css" type="text/css">
+    <style type="text/css" media="screen">
+    #header {
+      margin-top: 32px;
+      height: 100px;
+    }
+    #sidebar {
+      border-right: 1px solid #dedede;
+    }
+    .lead {
+      font-size: 1.2em;
+    }
+    .label {
+      margin-left: 24px;
+      text-transform: uppercase;
+    }
+    h5 {
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #dedede;
+    }
+    
+    .video-container {
+    	position:relative;
+    	padding-bottom:56.25%;
+    	padding-top:30px;
+    	height:0;
+    	overflow:hidden;
+    }
+
+    .video-container iframe, .video-container object, .video-container embed {
+    	position:absolute;
+    	top:0;
+    	left:0;
+    	width:100%;
+    	height:100%;
+    }
+    </style>
+    
+  </head>
+  <body>
+    <div class="container">
+      <div id="header">
+          <div class="float-left"><h3>Why to make (almost) anything 2017</h3></div>
+          <div class="float-right"><h5>Fab Lab Toscana - Cascina</h5></div>
+      </div>
+    
+      <div class="row">
+        <div class="column column-20" id='sidebar'>
+ <h3>
+   About us
+ </h3>
+ <p>
+   <a href="#about">Fiore Basile</a><br>
+   <a href="#about">Claudia Simonelli</a>
+ </p>
+   <h3>
+   Assigments
+ </h3>
+ <a href="#smilingworks">
+   #1 Smiling works
+ </a>
+        </div>
+         <div class="column">
+           
+           <h5>Assignments</h5>
+           
+           <img src="01.smilingworks/img/monkey_smile.jpg" style="width: 100%" alt="Monkey Smile">
+           
+           <h3>#1 Smiling Works</h3>
+           
+           <blockquote><strong>Concept</strong>: smiling has a positive effect on yourself and people around you. We want to create a way for "motivating" people to smile more.</blockquote>
+           
+           <p class="lead">
+             What if smiles could produce energy to make stuff work?
+<div class="video-container">
+<iframe  src="https://www.youtube.com/embed/tFAS_D7V9yo" frameborder="0" allowfullscreen></iframe>
+</div>
+           </p>
+           
+           <h3>Smile Power!</h3>
+           
+           <p>Smile Power is a smart-mirror, that is able to detect when you smile. This allows to control equipment, lights, hair-dryers, electric razors, and so on using your smile.</p>
+           
+           <h3>Why to make it?</h3>
+           <p>
+             The idea is very flexible, and can be applied to many projects.
+             <ul>
+               <li><strong>Donate your smile</strong>: A campaign for donating to a charity for each smile recorded by people in a public space</li>
+               <li><strong>Smile-vending-machine</strong>: give merchandising (like chewing-gum) to children smiling at a vending machine, to promote smile health</li>
+               <li><strong>Smile-trainer</strong>: a browser for social media that only works when people smile, it's difficult to bully someone when also smiling!</li>
+            </ul></p>
+           
+           <h3>Behind the scenes</h3>
+           
+           <p><img src="01.smilingworks/img/OpenCV_NodeRed_ESP_LAMP_480p.gif" width="640" height="400" alt="OpenCV NodeRed ESP LAMP 480p"><br/>
+             <span class="label">The smile recognition setup directly controlling a light</span></p>
+           
+           <p>
+           <div class="row">
+             <div class="column"><img src="01.smilingworks/img/20170329_123652.jpg"></div>
+             <div class="column"><img src="01.smilingworks/img/20170329_123703.jpg"></div>
+            </div>
+            <br/><span class="label">The fake mirror hides a webcam and a raspberry.</span></p>
+                      
+                      
+           <h3>How does it work?</h3>
+           
+           <p>Smile Power works capturing images from behind the mirror and analyzing them using a classifier able to recongnize a picture containing a smile. This is achieved training the classifier with a dataset containing many examples. The reading is then used to control wireless devices like switches or to integrate it with internet services</p>
+           <p>
+           The setup is composed by three main parts:
+           <img src="01.smilingworks/img/schema.svg"/>
+         </p>
+           <ul>  
+             <li> A <strong>smile detector</strong>, built using a fake mirror, a webcam and a Raspberry pi. All powered by a usb power pack and completely wireless. The software is based on the OpenCV library.</li>
+             <li> A <strong>controller module</strong>, also running on the Raspberry-pi built with the Node-red visual programming environment.</li>
+             <li> A <strong>smart-power-socket</strong> that can switch on and off devices using an-ESP 8266 controlled Relay. </li>
+           </ul>
+           
+           <h3>Smile recognition</h3>
+           
+           <p>
+             The smile recognition is performed on the Raspberry PI using a c++ program from the OpenCV sample code, edited to output a string such as:
+           
+           <code>
+             smile: 0.39
+           </code>
+           
+           <p>
+           <video width="640" height="480" src="01.smilingworks/img/opencv.webm" controls="true"></video>
+           <br/>
+           <span class="label">Performing smile-recognition using OpenCV</span>
+         </p>
+         </p>
+         <p>You can find instructions on how to compile OpenCV on Raspberry PI 2 in the <a href="#resources">resources</a> links below</p>
+           
+         </p>
+           <p>The code runs capturing images from the webcam at 480p, 5 frames per second, then applying two different classifiers: the first is used to recognize the face boundaries, and the second to recognize the smile in the area extracted from the previous image.</p>
+           
+           <p>Classifier data is stored in two different xml files shipped with OpenCV, for this example the <code>haarcascade_frontalface</code> and <code>haarcascade_smile</code> classifiers where used.</p>
+           
+           <p>Even at a lower framerate than a PC, the Raspberry 2 cores handle this process pretty well.</p>
+           
+           <p>Data from the smile recognition program, a number from 0 to 1, is sent to the controller using a WebSocket connection, containing output from the commandline. This is done using a simple Node.js application called <code>smileserver</code>, that spawns the C++ code.</p>
+           
+           <h3>Controller module</h3>
+           
+           <p>The controller module is based on <a href="https://nodered.org/">Node-red</a>, a visual flow programming environment, that allows to easily compose workflows for IoT devices</p>
+           
+           <p>The controller module is really optional, as one could control any device directly from the opencv program. The choice to use one allows to tweak the behaviour of the installation and integrate other sensors and actuators</p>
+           
+           
+           <p><img src="01.smilingworks/img/nodered.jpg" width="1024" height="686" alt="Nodered"><br/>
+             <span class="label">Data flow built with Node-red</p>
+           
+           <p>In few words, data coming from the smile detector via Websocket are <a href="https://www.npmjs.com/package/node-red-node-smooth">filtered</a> and converted into a boolean output, used to send on-off events to the Smart power socket using HTTP requests.</p>
+           
+           <p>Using node-red it would be very easy to post a tweet or interact with other devices without changing any part of the logic.</p>
+           
+           <p>On the latest <a href="#">Raspbian</a> distribution, you can install node red:
+             <pre> sudo npm install -g --unsafe-perm node-red</pre>
+             Also make sure you have installed the <a href="https://www.npmjs.com/package/node-red-node-smooth">node-red-smooth</a> plugin from node-red control panel.
+            </p> 
+            
+           <h3>Smart power socket</h3>
+           
+           <p><img src="01.smilingworks/img/20170325_154356.jpg"><br>
+             <span class="label">Olimex ESP8266-EVB</span></p>
+           
+           <p>This is the simplest part of the project, as there are readily available boards such as the ESP8266-EVB from Olimex that provide all necessary hardware and a convenient way of programming it.</p
+           
+           <p><img src="01.smilingworks/img/20170329_151123.jpg">
+             <br/><span class="label">Assembled Smart Power Socket</span>
+           </p>
+           
+           <p>The board integrates and ESP8266 module, a 10A 220v Relay and a Button. Holding the button while powering the board puts it in serial mode and allows to upload a custom firmware.</p>
+           
+           <p><img src="01.smilingworks/img/iotfirmware.jpg" alt="Iotfirmware">
+             <br/><span class="label">Olimex IoT Firmware</span></p>
+           
+           <p>Instead of the default AT firmware, Olimex provides an advanced IOT Firmware allowing to control all GPIOs including the one attached to the Relay using HTTP or Websocket</p>
+           
+           <p>Simply sending a <code>POST /relay</code> containing the json string <code>{"relay": 1}</code>, allows to switch on the relay</p>
+           
+           
+           <h3>Downloads</h3>
+           
+           <p><strong>Source code</strong> | <a href="http://github.com/fibasile/whytomake2017/">Github repo</a>
+             <br>
+             <a href="https://github.com/fibasile/whytomake2017/tree/master/01.smilingworks/src/smileserver/src">Smiledetect Opencv</a> | 
+             <a href="https://github.com/fibasile/whytomake2017/tree/master/01.smilingworks/src/nodered">Node-red flow</a> |
+             <a href="https://github.com/fibasile/whytomake2017/tree/master/01.smilingworks/src/smileserver">Smileserver</a> 
+             
+           <p><strong>Dependencies</strong>
+           <br>
+           <a href="https://github.com/OLIMEX/olimex-iot-firmware-esp8266">Olimex IOT Firmware</a> | 
+           <a href="https://nodejs.org/en/">Node.js</a> | 
+           <a href="https://nodered.org">Node-red</a>
+           </p>
+           
+           <p><strong>Materials</strong>
+             <br><a href="https://www.olimex.com/Products/IoT/ESP8266-EVB/">Olimex ESP8266-EVB Board</a>
+             <br><a href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">Raspberry PI mod. 2</a>       </p>
+           
+           
+           <p id="resources"><strong>Resources</strong>
+             <br>
+             <a href="http://secondrobotics.com/tutorials/2254-2/">Installing OpenCV 3.2 on Raspberry Pi 3 - Second Robotics LLC</a><br>
+           </p>
+           
+           
+           
+           <h5 id="about">About</h5>
+           <p><a href="http://github.com/fibasile">Fiore Basile</a> is a Fab Academy instructor and staff member based in Cascina, Italy. After graduating Fab Academy he started Fab Lab Toscana, a regional distributed network of labs.</p>   
+           <p><a href="https://www.linkedin.com/in/claudia-simonelli-5a7125115/">Claudia Simonelli</a> just graduated as an Industrial Designer from ISIA, Florence. She has worked in Fab Lab Toscana for about two years designing products and crafting training programs for young makers and students.</p>
+           
+           
+         </div>
+    </div>
+  </body>
+</html>
